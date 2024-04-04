@@ -2,29 +2,29 @@ Sure, here is the full script to run the waifuc library on local images using on
 
 ```python
 import os
-import sys
+import cv2
+import onnxruntime
 import waifuc.source
 import waifuc.action
 import waifuc.export
 
-# Set the input and output directories
-input_dir = 'C:/01input'
-output_dir = 'C:/02output'
+input_dir = "C:/01input"
+output_dir = "C:/02output"
 
-# Create a LocalSource object with the input directory
+if not os.path.exists(output_dir):
+    os.makedirs(output_dir)
+
 source = waifuc.source.LocalSource(input_dir)
 
-# Attach actions to the source
-source = source.attach(waifuc.action.ModeConvertAction(mode='RGB', force_background='white'))
+source = source.attach(waifuc.action.ModeConvertAction(mode="RGB", force_background="white"))
 source = source.attach(waifuc.action.NoMonochromeAction())
-source = source.attach(waifuc.action.ClassFilterAction(['illustration', 'bangumi']))
+source = source.attach(waifuc.action.ClassFilterAction(classes=["illustration", "bangumi"]))
 source = source.attach(waifuc.action.FilterSimilarAction())
 source = source.attach(waifuc.action.TaggingAction())
 source = source.attach(waifuc.action.PersonSplitAction())
 source = source.attach(waifuc.action.FaceCountAction(1))
 source = source.attach(waifuc.action.CCIPAction())
 
-# Export the processed images to the output directory
 source.export(waifuc.export.SaveExporter(output_dir))
 ```
 
