@@ -1,91 +1,77 @@
-Sure, here is the full script to run the waifuc library on local images using only the CPU:
+# Anime Video Extractor
 
-```python
-import os
-import cv2
-import onnxruntime
-import waifuc.source
-import waifuc.action
-import waifuc.export
+This repository contains a script to extract and process frames from anime videos. The script uses the `waifuc` library to filter and export images based on various criteria such as person detection, face count, and image size.
 
-input_dir = "C:/01input"
-output_dir = "C:/02output"
+## Features
 
-if not os.path.exists(output_dir):
-    os.makedirs(output_dir)
+- Filters similar frames (e.g., opening and ending sequences)
+- Splits frames by detected persons
+- Filters images based on face count
+- Filters images based on minimum size
+- Renames and orders the extracted images
+- Exports the processed images to a specified directory
 
-source = waifuc.source.LocalSource(input_dir)
+## Requirements
 
-source = source.attach(waifuc.action.ModeConvertAction(mode="RGB", force_background="white"))
-source = source.attach(waifuc.action.NoMonochromeAction())
-source = source.attach(waifuc.action.ClassFilterAction(classes=["illustration", "bangumi"]))
-source = source.attach(waifuc.action.FilterSimilarAction())
-source = source.attach(waifuc.action.TaggingAction())
-source = source.attach(waifuc.action.PersonSplitAction())
-source = source.attach(waifuc.action.FaceCountAction(1))
-source = source.attach(waifuc.action.CCIPAction())
+- Python 3.x
+- `waifuc` library with video extension
 
-source.export(waifuc.export.SaveExporter(output_dir))
-```
+## Installation
 
-To use this script, follow these steps:
+To set up the environment, follow these steps:
 
-1. Install the waifuc library by running `pip install waifuc` in your command prompt or terminal.
-2. Save the above script as a Python file, for example `waifu_images.py`.
-3. Set the input and output directories in the script to the desired directories on your computer.
-4. Run the script by executing `python waifu_images.py` in your command prompt or terminal.
+1. Clone this repository:
+    ```bash
+    git clone https://github.com/yourusername/anime-video-extractor.git
+    cd anime-video-extractor
+    ```
 
-The script will process the images in the input directory using the specified actions and save the processed images to the output directory.
+2. Install the required libraries:
+    ```bash
+    pip install git+https://github.com/deepghs/waifuc.git@main#egg=waifuc[video]
+    ```
 
-Here is a GitHub repository with the above script and a `README.md` file with instructions on how to use the script:
+3. For GPU support with CUDA 12, install `onnxruntime-gpu`:
+    ```bash
+    pip install onnxruntime-gpu>=1.17
+    ```
 
-[waifuc-sorting-script](https://github.com/your-username/waifuc-sorting-script)
+    **Note:** If you are using Google Colab, install the CUDA 12 version for Colab:
+    ```bash
+    pip install ort-nightly-gpu --index-url=https://aiinfra.pkgs.visualstudio.com/PublicPackages/_packaging/ort-cuda-12-nightly/pypi/simple/
+    ```
 
-The `README.md` file contains the following instructions:
+## Usage
 
-waifuc-sorting-script
-============
+1. Place your input videos in a directory. For example: `G:\\F_ANIME_INPUT\\High School DxD Hero`.
 
-This repository contains a Python script to sort images using the waifuc library.
+2. Modify the script to set your input and output directories.
 
-Installation
-------------
+3. Run the script:
+    ```bash
+    python ANIME_Videos_extract.py
+    ```
 
-1. Install the waifuc library by running `pip install waifuc` in your command prompt or terminal.
+## Script Overview
 
-Usage
------
+The script performs the following actions:
 
-1. Save the `waifu_images.py` script in this repository to your desired directory.
-2. Set the input and output directories in the script to the desired directories on your computer.
-3. Run the script by executing `python waifu_images.py` in your command prompt or terminal.
+1. Loads video files from the specified input directory.
+2. Attaches several actions to process the frames:
+    - Filters similar frames.
+    - Splits frames by detected persons.
+    - Ensures frames contain only one face.
+    - Filters out small images.
+    - Further filters similar images.
+    - Splits person images into three stages.
+    - Renames and orders the files in PNG format.
+3. Exports the processed images to the specified output directory.
 
-The script will process the images in the input directory using the specified actions and save the processed images to the output directory.
+## Notes
 
-Actions
--------
+- Do not run `pip install onnxruntime` as it may break the environment.
+- `pyav` installation is unnecessary.
 
-The following actions are applied to the images:
+## License
 
-* ModeConvertAction: converts the image mode to RGB and forces the background to white.
-* NoMonochromeAction: filters out monochrome images.
-* ClassFilterAction: filters images based on their class.
-* FilterSimilarAction: filters out similar images.
-* TaggingAction: tags the images.
-* PersonSplitAction: splits images with multiple people.
-* FaceCountAction: filters images based on the number of faces.
-* CCIPAction: filters out irrelevant characters.
-
-Dependencies
-------------
-
-* Python 3.7 or higher
-* waifuc library
-
-License
--------
-
-This project is licensed under the MIT License - see the `LICENSE` file for details.
-
-Citations:
-[1] https://ppl-ai-file-upload.s3.amazonaws.com/web/direct-files/8746863/3227e17f-6ef3-4641-9f46-f3783b64e479/localextract.txt
+This project is licensed under the MIT License.
