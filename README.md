@@ -1,6 +1,6 @@
-# Anime Video Extractor
+# Media Character Extractor
 
-This repository contains a script to extract and process frames from anime videos. The script uses the `waifuc` library to filter and export images based on various criteria such as person detection, face count, and image size.
+This repository contains a script to extract and process frames from various media types, including anime, cartoons, game walkthroughs, and movies. The script uses the `waifuc` library to filter and export images based on various criteria such as person detection, face count, and image size.
 
 ## Features
 
@@ -10,6 +10,13 @@ This repository contains a script to extract and process frames from anime video
 - Filters images based on minimum size
 - Renames and orders the extracted images
 - Exports the processed images to a specified directory
+
+## Supported Media Types
+
+- Anime
+- Cartoons
+- Game Walkthroughs
+- Movies
 
 ## Requirements
 
@@ -22,8 +29,8 @@ To set up the environment, follow these steps:
 
 1. Clone this repository:
     ```bash
-    git clone https://github.com/yourusername/anime-video-extractor.git
-    cd anime-video-extractor
+    git clone https://github.com/yourusername/media-character-extractor.git
+    cd media-character-extractor
     ```
 
 2. Install the required libraries:
